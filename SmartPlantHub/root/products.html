@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SmartPlant Hub - Products</title>
+  <link rel="stylesheet" href="./css/styles.css" />
+</head>
+<body>
+
+ <!-- HEADER -->
+  <header class="header">
+    <div class="logo">SmartPlant Hub</div>
+
+    <nav class="main-nav">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="products.html">Shop</a></li>
+        <li><a href="cart.html">Cart</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="account.html">My Account</a></li>
+      </ul>
+    </nav>
+
+    <div class="header-icons">
+      <a href="login.html" class="login-btn">Login</a>
+      <a href="register.html" class="register-btn">Register</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="deal-of-day">
+      <h2>Product Page</h2>
+      <div class="product-grid-modern">
+
+        <div class="product-card vertical">
+          <img src="images/ARECAPALM.jpg" alt="Areca Palm" />
+          <div class="product-info">
+            <h3>Areca Palm</h3>
+            <p class="price">$45.00</p>
+            <button class="button add-to-cart-btn" data-name="Areca Palm" data-price="45.00">Add to Cart</button>
+          </div>
+        </div>
+
+        <div class="product-card vertical">
+          <img src="images/ARROWHEAD.jpg" alt="Arrow Head" />
+          <div class="product-info">
+            <h3>Fiddle Leaf Fig</h3>
+            <p class="price">$55.00</p>
+            <button class="button add-to-cart-btn" data-name="Fiddle Leaf Fig" data-price="55.00">Add to Cart</button>
+          </div>
+        </div>
+
+        <div class="product-card vertical">
+          <img src="images/ALUMINIUMPLANTFIT.jpg" alt="Aluminium Plant Fit" />
+          <div class="product-info">
+            <h3>Monstera</h3>
+            <p class="price">$65.00</p>
+            <button class="button add-to-cart-btn" data-name="Monstera" data-price="65.00">Add to Cart</button>
+          </div>
+        </div>
+
+        <div class="product-card vertical">
+          <img src="images/BOSTONFERN.jpg" alt="Boston Fern" />
+          <div class="product-info">
+            <h3>ZZ Plant</h3>
+            <p class="price">$40.00</p>
+            <button class="button add-to-cart-btn" data-name="ZZ Plant" data-price="40.00">Add to Cart</button>
+          </div>
+        </div>
+
+        <div class="product-card vertical">
+          <img src="images/CASTIRONPLANT.jpg" alt="CASTIRONPLANT" />
+          <div class="product-info">
+            <h3>Snake Plant</h3>
+            <p class="price">$35.00</p>
+            <button class="button add-to-cart-btn" data-name="Snake Plant" data-price="35.00">Add to Cart</button>
+          </div>
+        </div>
+
+        <div class="product-card vertical">
+          <img src="images/CORNPLANT.jpg" alt="Corn Plant" />
+          <div class="product-info">
+            <h3>Peace Lily</h3>
+            <p class="price">$50.00</p>
+            <button class="button add-to-cart-btn" data-name="Peace Lily" data-price="50.00">Add to Cart</button>
+          </div>
+        </div>
+
+        <div class="product-card vertical">
+          <img src="images/DUMBCANE.jpg" alt="Dumb Cane" />
+          <div class="product-info">
+            <h3>Dumb Cane</h3>
+            <p class="price">$50.00</p>
+            <button class="button add-to-cart-btn" data-name="Dumb Cane" data-price="50.00">Add to Cart</button>
+          </div>
+        </div>
+
+        <div class="product-card vertical">
+          <img src="images/CHINEEVERGREEN.jpg" alt="Chine Ever Green" />
+          <div class="product-info">
+            <h3>Chine Ever Green</h3>
+            <p class="price">$50.00</p>
+            <button class="button add-to-cart-btn" data-name="Chine Ever Green" data-price="50.00">Add to Cart</button>
+          </div>
+        </div>
+
+        <div class="product-card vertical">
+          <img src="images/CANARYDATEPALM.jpg" alt="Canary Date Palm" />
+          <div class="product-info">
+            <h3>Canary Date Palm</h3>
+            <p class="price">$50.00</p>
+            <button class="button add-to-cart-btn" data-name="Canary Date Palm" data-price="50.00">Add to Cart</button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <p>&copy; 2025 SmartPlant Hub. All rights reserved.</p>
+  </footer>
+
+  <script src="./pages/js/controllers/cartController.js"></script>
+  <script>
+  // Use cartController functions to add items
+  document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+    button.addEventListener('click', () => {
+      const name = button.getAttribute('data-name');
+      const price = parseFloat(button.getAttribute('data-price'));
+      addToCart({ name, price, quantity: 1 });
+      alert(`${name} added to cart!`);
+    });
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SmartPlant Hub - Cart</title>
+  <link rel="stylesheet" href="./css/styles.css" />
+</head>
+<body>
+
+ <!-- HEADER -->
+  <header class="header">
+    <div class="logo">SmartPlant Hub</div>
+
+    <nav class="main-nav">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="products.html">Shop</a></li>
+        <li><a href="cart.html">Cart</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="account.html">My Account</a></li>
+      </ul>
+    </nav>
+
+    <div class="header-icons">
+      <a href="login.html" class="login-btn">Login</a>
+      <a href="register.html" class="register-btn">Register</a>
+    </div>
+  </header>
+
+<main>
+  <section class="cart-section">
+    <h2>Your Cart</h2>
+    <table id="cart-table">
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Price</th>
+          <th>Quantity</th>
+          <th>Subtotal</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Cart items inserted here dynamically -->
+      </tbody>
+    </table>
+
+    <h3 id="cart-total">Total: $0.00</h3>
+
+    <div class="cart-actions">
+  <button id="clear-cart-btn">Clear Cart</button>
+  <button id="checkout-btn">Checkout</button>
+</div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <p>&copy; 2025 SmartPlant Hub. All rights reserved.</p>
+</footer>
+
+<script src="./pages/js/controllers/cartController.js"></script>
+<script>
+  const cartTableBody = document.querySelector('#cart-table tbody');
+  const cartTotal = document.getElementById('cart-total');
+  const clearCartBtn = document.getElementById('clear-cart-btn');
+
+  function renderCart() {
+    const cart = getCart();
+    cartTableBody.innerHTML = '';
+
+    if (cart.length === 0) {
+      cartTableBody.innerHTML = '<tr><td colspan="5" style="text-align:center;">Your cart is empty.</td></tr>';
+      cartTotal.textContent = 'Total: $0.00';
+      return;
+    }
+
+    let total = 0;
+    cart.forEach((item, index) => {
+      const subtotal = item.price * item.quantity;
+      total += subtotal;
+
+      const tr = document.createElement('tr');
+
+      tr.innerHTML = `
+        <td>${item.name}</td>
+        <td>$${item.price.toFixed(2)}</td>
+        <td>
+          <input type="number" min="1" value="${item.quantity}" data-index="${index}" class="qty-input" />
+        </td>
+        <td>$${subtotal.toFixed(2)}</td>
+        <td><button data-index="${index}" class="remove-btn">Remove</button></td>
+      `;
+
+      cartTableBody.appendChild(tr);
+    });
+
+    cartTotal.textContent = `Total: $${total.toFixed(2)}`;
+
+    // Add event listeners for quantity inputs
+    document.querySelectorAll('.qty-input').forEach(input => {
+      input.addEventListener('change', e => {
+        const idx = parseInt(e.target.getAttribute('data-index'));
+        let newQty = parseInt(e.target.value);
+        if (isNaN(newQty) || newQty < 1) newQty = 1;
+        updateQuantity(idx, newQty);
+        renderCart();
+      });
+    });
+
+    // Add event listeners for remove buttons
+    document.querySelectorAll('.remove-btn').forEach(button => {
+      button.addEventListener('click', e => {
+        const idx = parseInt(e.target.getAttribute('data-index'));
+        removeFromCart(idx);
+        renderCart();
+      });
+    });
+  }
+
+  clearCartBtn.addEventListener('click', () => {
+    clearCart();
+    renderCart();
+  });
+
+  // Initial render
+  renderCart();
+</script>
+
+</body>
+</html>
