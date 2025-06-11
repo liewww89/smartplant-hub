@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>My Account - SmartPlant Hub</title>
+  <link rel="stylesheet" href="./css/styles.css" />
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="logo">SmartPlant Hub</div>
+
+    <nav class="main-nav">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="products.html">Shop</a></li>
+        <li><a href="cart.html">Cart</a></li>
+        <li><a href="purchases.html">Purchases</a></li>
+        <li><a href="account.html" class="active">My Account</a></li>
+      </ul>
+    </nav>
+
+    <div class="header-icons" id="user-section">
+      <!-- Login/Register or Welcome + Logout button will be injected here by JS -->
+    </div>
+  </header>
+
+  <!-- ACCOUNT CONTENT -->
+  <main>
+    <section class="auth-page">
+      <div class="auth-container">
+        <div class="auth-form">
+          <h2>Welcome, <span id="user-name">User</span></h2>
+
+          <p style="text-align:center; margin-top:1rem;">
+            This is your account dashboard. Here you can view your details.
+          </p>
+
+          <div style="margin-top:2rem;">
+            <label for="user-email">Email</label>
+            <input type="text" id="user-email" disabled />
+
+            <label for="user-fullname" style="margin-top: 1rem;">Full Name</label>
+            <input type="text" id="user-fullname" disabled />
+          </div>
+
+          <button id="logout-page-btn" class="btn-primary" style="margin-top: 2rem;">Logout</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" style="text-align:center; padding:1rem; margin-top: 3rem;">
+    <p>&copy; 2025 SmartPlant Hub. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // Update header section based on user login status
+    function updateHeaderUser() {
+      const userSection = document.getElementById('user-section');
+      const loggedIn = localStorage.getItem('loggedIn') === 'true';
+      const user = JSON.parse(localStorage.getItem('loggedInUser'));
+
+      if (loggedIn && user) {
+        userSection.innerHTML = `
+          <span class="welcome-msg">Welcome, ${user.name}</span>
+          <button id="logout-btn" class="logout-btn" style="margin-left: 15px;">Logout</button>
+        `;
+
+        document.getElementById('logout-btn').addEventListener('click', logout);
+      } else {
+        userSection.innerHTML = `
+          <a href="login.html" class="login-btn">Login</a>
+          <a href="register.html" class="register-btn">Register</a>
+        `;
+      }
+    }
+
+    // Load user info and check if logged in
+    function loadUserDetails() {
+      const user = JSON.parse(localStorage.getItem('loggedInUser'));
+      const loggedIn = localStorage.getItem('loggedIn') === 'true';
+
+      if (!loggedIn || !user) {
+        alert('You must be logged in to access this page.');
+        window.location.href = 'login.html';
+        return;
+      }
+
+      // Update page with user info
+      document.getElementById('user-name').textContent = user.name;
+      document.getElementById('user-email').value = user.email;
+      document.getElementById('user-fullname').value = user.name;
+    }
+
+    // Logout function clears localStorage and redirects
+    function logout() {
+      localStorage.removeItem('loggedIn');
+      localStorage.removeItem('loggedInUser');
+      alert('You have been logged out.');
+      window.location.href = 'index.html';
+    }
+
+    // Set event listeners
+    document.addEventListener('DOMContentLoaded', () => {
+      updateHeaderUser();
+      loadUserDetails();
+
+      // Logout button in the main content
+      const logoutPageBtn = document.getElementById('logout-page-btn');
+      if (logoutPageBtn) {
+        logoutPageBtn.addEventListener('click', logout);
+      }
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login - SmartPlant Hub</title>
+  <link rel="stylesheet" href="./css/styles.css" />
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="logo">SmartPlant Hub</div>
+
+    <nav class="main-nav">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="products.html">Shop</a></li>
+        <li><a href="cart.html">Cart</a></li>
+        <li><a href="purchases.html">Purchase</a></li>
+        <li><a href="account.html">My Account</a></li>
+      </ul>
+    </nav>
+
+    <div class="header-icons" id="user-section">
+      <!-- Login/Register or Welcome + Logout will be injected here -->
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main>
+    <section class="auth-page">
+      <div class="auth-container">
+        <form class="auth-form" id="login-form" action="#" method="POST" novalidate>
+          <h2>Login</h2>
+
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" placeholder="Enter your email" required />
+
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" placeholder="Enter your password" required />
+
+          <button type="submit" class="btn-primary">Login</button>
+
+          <p class="switch-auth">
+            Don't have an account? <a href="register.html">Register here</a>
+          </p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" style="text-align:center; padding:1rem; margin-top: 3rem;">
+    <p>&copy; 2025 SmartPlant Hub. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // Update header user section based on login status
+    function updateHeaderUser() {
+      const userSection = document.getElementById('user-section');
+      const loggedIn = localStorage.getItem('loggedIn') === 'true';
+      const user = JSON.parse(localStorage.getItem('loggedInUser'));
+
+      if (loggedIn && user) {
+        userSection.innerHTML = `
+          <span class="welcome-msg">Welcome, ${user.name}</span>
+          <button id="logout-btn" class="logout-btn" style="margin-left: 15px;">Logout</button>
+        `;
+
+        document.getElementById('logout-btn').addEventListener('click', logout);
+      } else {
+        userSection.innerHTML = `
+          <a href="login.html" class="login-btn">Login</a>
+          <a href="register.html" class="register-btn">Register</a>
+        `;
+      }
+    }
+
+    // Logout function clears login data and redirects to home
+    function logout() {
+      localStorage.removeItem('loggedIn');
+      localStorage.removeItem('loggedInUser');
+      alert('You have been logged out.');
+      window.location.href = 'index.html';
+    }
+
+    // Handle login form submission
+    document.getElementById('login-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const emailInput = document.getElementById('email').value.trim().toLowerCase();
+      const passwordInput = document.getElementById('password').value;
+
+      // Retrieve users from localStorage (empty array if none)
+      const users = JSON.parse(localStorage.getItem('users')) || [];
+
+      // Check if a user matches entered email and password
+      const user = users.find(u => u.email.toLowerCase() === emailInput && u.password === passwordInput);
+
+      if (user) {
+        localStorage.setItem('loggedIn', 'true');
+        localStorage.setItem('loggedInUser', JSON.stringify(user));
+
+        alert(`Welcome back, ${user.name}!`);
+        window.location.href = 'account.html';
+      } else {
+        alert('Invalid email or password. Please try again.');
+      }
+    });
+
+    // Initialize header user section on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      updateHeaderUser();
+    });
+  </script>
+
+</body>
+</html>
